@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkopendrivelab"]=self["webpackChunkopendrivelab"]||[]).push([[97],{49097:function(n,e,u){u.r(e),u.d(e,{default:function(){return a}});var l=function(){var n=this;n._self._c;return n._m(0)},r=[function(){var n=this,e=n._self._c;return e("div",[e("h1",[n._v("Publication")])])}],t={},i=t,c=u(1001),s=(0,c.Z)(i,l,r,!1,null,null,null),a=s.exports}}]);
+//# sourceMappingURL=97.e97e64e1.js.map
