@@ -4,15 +4,15 @@ import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 
 const routes = [
+  // {
+  //   path: '/',
+  //   component: () => import('@/views/HomeView.vue'),
+  //   meta: {
+  //     title: 'OpenDriveLab'
+  //   }
+  // },
   {
     path: '/',
-    component: () => import('@/views/HomeView.vue'),
-    meta: {
-      title: 'OpenDriveLab'
-    }
-  },
-  {
-    path: '/AD_Dataset',
     component: () => import('@/views/AD_Dataset.vue'),
     meta: {
       title: 'DriveLM'
