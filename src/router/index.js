@@ -6,12 +6,25 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'home',
     component: () => import('@/views/HomeView.vue'),
     meta: {
       title: 'OpenDriveLab'
     }
   },
+  {
+    path: '/AD_Dataset',
+    component: () => import('@/views/AD_Dataset.vue'),
+    meta: {
+      title: 'DriveLM'
+    }
+  },
+  // {
+  //   path: '/DriveLM',
+  //   component: () => import('@/views/DriveLM/DriveLM.vue'),
+  //   meta: {
+  //     title: 'DriveLM'
+  //   }
+  // },
 ]
 
 const router = new VueRouter({
