@@ -1,6 +1,6 @@
 <template>
   <div style="margin-top: 50px">
-    <h1>Autonomous Driving Dataset</h1>
+    <div  class="title">Autonomous Driving Dataset</div>
     <a-table
       style="margin: 30px"
       :data-source="data"
@@ -77,16 +77,29 @@
           {{ text }}
         </template>
       </template>
-      <!-- <span slot="tags" slot-scope="text, record">
-        <a-tag v-for="tag in record.tags" :key="tag" :color="tagColor(tag)">
+      <span slot="tags" slot-scope="tags">
+        <a-tag v-for="tag in tags" :key="tag" :color="tagColor(tag)">
           {{ tag }}
         </a-tag>
-      </span> -->
-      <!-- <span slot="tags" slot-scope="tags">
-        <a-tag v-for="tag in tags" :key="tag" :color="tagColor(tag)">
-          {{ tag.toUpperCase() }}
-        </a-tag>
-      </span> -->
+      </span>
+      <template slot="licensing" slot-scope="text">
+        <a-tooltip placement="topLeft">
+          <template slot="title"> {{ text }} </template>
+          {{ text }}
+        </a-tooltip>
+      </template>
+      <template slot="relatedPaper" slot-scope="text">
+        <a-tooltip placement="topLeft">
+          <template slot="title">
+            <a :href="text" target="_blank" rel="noopener noreferrer">{{
+              text
+            }}</a>
+          </template>
+          <a :href="text" target="_blank" rel="noopener noreferrer">{{
+            text
+          }}</a>
+        </a-tooltip>
+      </template>
     </a-table>
   </div>
 </template>
@@ -97,7 +110,8 @@ const columns = [
     title: "Name",
     dataIndex: "id",
     key: "id",
-    width: "200",
+    ellipsis: true,
+    width: 150,
     // defaultSortOrder: "descend",
     sorter: (a, b) => a.id.localeCompare(b.id),
     scopedSlots: {
@@ -112,7 +126,7 @@ const columns = [
     title: "N° Citations",
     dataIndex: "citationCount",
     key: "citationCount",
-    width: "200",
+    width: 150,
     // defaultSortOrder: "descend",
     sorter: (a, b) => Number(a.citationCount) - Number(b.citationCount),
     scopedSlots: {
@@ -130,7 +144,7 @@ const columns = [
     title: "Size [h]",
     dataIndex: "size_hours",
     key: "size_hours",
-    width: "200",
+    width: 100,
     // sorter: (a, b) => Number(a.size_hours) - Number(b.size_hours),
     sorter: (a, b) => {
       if (isNaN(a.size_hours) && isNaN(b.size_hours)) {
@@ -158,7 +172,7 @@ const columns = [
     title: "Size [GB]",
     dataIndex: "size_storage",
     key: "size_storage",
-    width: "200",
+    width: 100,
     // defaultSortOrder: "descend",
     sorter: (a, b) => {
       if (isNaN(a.size_storage) && isNaN(b.size_storage)) {
@@ -186,7 +200,7 @@ const columns = [
     title: "Frames",
     dataIndex: "frames",
     key: "frames",
-    width: "200",
+    width: 100,
     // defaultSortOrder: "descend",
     sorter: (a, b) => {
       if (isNaN(a.frames) && isNaN(b.frames)) {
@@ -211,7 +225,7 @@ const columns = [
     title: "N° Scenes",
     dataIndex: "numberOfScenes",
     key: "numberOfScenes",
-    width: "200",
+    width: 150,
     // defaultSortOrder: "descend",
     sorter: (a, b) => {
       if (isNaN(a.numberOfScenes) && isNaN(b.numberOfScenes)) {
@@ -239,7 +253,7 @@ const columns = [
     title: "Scene Length [s]",
     dataIndex: "lengthOfScenes",
     key: "lengthOfScenes",
-    width: "200",
+    width: 150,
     // defaultSortOrder: "descend",
     sorter: (a, b) => {
       if (isNaN(a.lengthOfScenes) && isNaN(b.lengthOfScenes)) {
@@ -267,19 +281,54 @@ const columns = [
     title: "Sensortypes",
     dataIndex: "sensors",
     key: "sensors",
-    width: "200",
+    width: 250,
     // scopedSlots: { customRender: "tags" },
     // defaultSortOrder: "descend",
     // sorter: (a, b) => a.sensors.localeCompare(b.sensors),
     scopedSlots: {
       filterDropdown: "filterDropdown",
       filterIcon: "filterIcon",
-      customRender: "customRender",
-      // customRender: "tags",
+      // customRender: "customRender",
+      customRender: "tags",
       // tags: "tags",
     },
     onFilter: (value, record) =>
       record.sensors.toString().toLowerCase().includes(value.toLowerCase()),
+  },
+  {
+    title: "Licensing",
+    dataIndex: "licensing",
+    key: "licensing",
+    ellipsis: true,
+    width: 200,
+    // defaultSortOrder: "descend",
+    // sorter: (a, b) => a.licensing.localeCompare(b.licensing),
+    scopedSlots: {
+      // filterDropdown: "filterDropdown",
+      // filterIcon: "filterIcon",
+      customRender: "licensing",
+    },
+    onFilter: (value, record) =>
+      record.licensing.toString().toLowerCase().includes(value.toLowerCase()),
+  },
+  {
+    title: "Related Paper",
+    dataIndex: "relatedPaper",
+    key: "relatedPaper",
+    ellipsis: true,
+    width: 200,
+    // defaultSortOrder: "descend",
+    // sorter: (a, b) => a.relatedPaper.localeCompare(b.relatedPaper),
+    scopedSlots: {
+      // filterDropdown: "filterDropdown",
+      // filterIcon: "filterIcon",
+      customRender: "relatedPaper",
+    },
+    // onFilter: (value, record) =>
+    //   record.relatedPaper
+    //     .toString()
+    //     .toLowerCase()
+    //     .includes(value.toLowerCase()),
   },
 ];
 
@@ -321,23 +370,31 @@ export default {
           !item.sensors || typeof item.sensors !== "string"
             ? []
             : item.sensors.split(","),
+        licensing:
+          !item.licensing || item.licensing === "-" ? "--" : item.licensing,
+        relatedPaper:
+          !item.relatedPaper || item.relatedPaper === "-"
+            ? "--"
+            : item.relatedPaper,
       };
     });
   },
   methods: {
     tagColor(tag) {
-      console.log("tagColor===================", tag);
-      switch (tag) {
+      // console.log("tag===================", tag);
+      switch (tag.trim()) {
         case "camera":
-          return "volcano";
+          return "green";
         case "lidar":
           return "geekblue";
         case "radar":
-          return "green";
+          return "volcano";
         case "gps/imu":
-          return "gold";
+          return "gold"; // 金色
+        case "gps":
+          return "orange"; // 橙色
         default:
-          return "blue";
+          return "blue"; // 蓝色
       }
     },
     handleSearch(selectedKeys, confirm, dataIndex) {
@@ -353,7 +410,15 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
+.title {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+}
 .table-operations {
   margin-bottom: 16px;
 }
