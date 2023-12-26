@@ -1,29 +1,35 @@
 <template>
-  <div id="app" style="position: relative;width: 100%;height: 100%;">
+  <div id="app" class="layout-class">
     <Header></Header>
-    <router-view/>
-    <div style="position: absolute;bottom:0px;width: 100%;">
+    <router-view />
+    <!-- <div style=" width: 100%">
       <Footer></Footer>
-    </div>
-
+    </div> -->
   </div>
 </template>
 
-
-
 <script>
-import Header from '@/components/header.vue';
+import Header from "@/components/header.vue";
+import Footer from "@/components/footer.vue";
 export default {
   components: {
     Header,
+    Footer,
   },
-}
+};
 </script>
 
-
-
-<style>
-#app {
+<style lang="scss" scoped>
+.layout-class {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+}
+/* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -42,5 +48,5 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
-}
+} */
 </style>

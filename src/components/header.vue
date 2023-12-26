@@ -1,23 +1,17 @@
 <template>
   <a-layout>
     <div class="logo">
-      <a href="https://opendrivelab.com/" rel="noopener noreferrer">
+      <a href="https://opendrivelab.com/" target="_blank" rel="noopener noreferrer">
         <img src="../assets/OpenDriveLab.png" alt="Logo"
       /></a>
     </div>
     <a-layout-header class="layout-header">
-      <a-menu  mode="horizontal">
-        <!-- <a-menu-item>
-          <div class="logo">
-            <a href="https://opendrivelab.com/" rel="noopener noreferrer">
-              <img src="../assets/OpenDriveLab.png" alt="Logo"
-            /></a>
-          </div>
-        </a-menu-item> -->
+      <a-menu mode="horizontal">
         <a-menu-item>
-          <a href="" rel="noopener noreferrer">
-            <a-icon type="database" />AD-Datasets</a
-          >
+          <!-- <a href="" rel="noopener noreferrer">
+            <a-icon type="database" />AD-Datasets
+          </a> -->
+          <router-link to="/"> <a-icon type="database" />AD-Datasets</router-link>
         </a-menu-item>
         <a-menu-item key="Sponsor">
           <a
@@ -41,19 +35,18 @@
 <script>
 export default {
   data() {
-    return {
-    };
+    return {};
   },
 };
 </script>
 
 <style lang="scss" scoped>
 .ant-menu-horizontal {
-    line-height: 65px;
-    white-space: nowrap;
-    border: 0;
-    /* border-bottom: 1px solid #e8e8e8; */
-    box-shadow: none;
+  line-height: 65px;
+  white-space: nowrap;
+  border: 0;
+  /* border-bottom: 1px solid #e8e8e8; */
+  box-shadow: none;
 }
 .ant-layout {
   display: flex;

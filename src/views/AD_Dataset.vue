@@ -1,8 +1,24 @@
 <template>
   <div style="margin-top: 50px">
-    <div  class="title">Autonomous Driving Dataset</div>
+    <div class="title">Autonomous Driving Dataset</div>
+    <a-form-model :model="form" labelAlign="left" style="margin: 30px" :label-col="labelCol" :wrapper-col="wrapperCol" >
+      <a-form-model-item label="请选择显示的列">
+        <a-select
+          v-model="form.arr"
+          mode="multiple"
+          style="width: 100%"
+          placeholder="请选择"
+          allowClear
+          @change="handleChange"
+        >
+          <a-select-option v-for="item in columnsSelect" :key="item.index" :value="item.key">
+            {{ item.name }}
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
+    </a-form-model>
     <a-table
-      style="margin: 30px"
+      style="margin: 20px;width: 98%;"
       :data-source="data"
       :columns="columns"
       :rowKey="
@@ -10,6 +26,7 @@
           return index;
         }
       "
+      :scroll="{ x: 1200, }"
     >
       <div
         slot="filterDropdown"
@@ -112,6 +129,7 @@ const columns = [
     key: "id",
     ellipsis: true,
     width: 150,
+    fixed: 'left',
     // defaultSortOrder: "descend",
     sorter: (a, b) => a.id.localeCompare(b.id),
     scopedSlots: {
@@ -144,7 +162,7 @@ const columns = [
     title: "Size [h]",
     dataIndex: "size_hours",
     key: "size_hours",
-    width: 100,
+    width: 150,
     // sorter: (a, b) => Number(a.size_hours) - Number(b.size_hours),
     sorter: (a, b) => {
       if (isNaN(a.size_hours) && isNaN(b.size_hours)) {
@@ -163,7 +181,7 @@ const columns = [
       customRender: "customRender",
     },
     onFilter: (value, record) =>
-      record.citationCount
+      record.size_hours
         .toString()
         .toLowerCase()
         .includes(value.toLowerCase()),
@@ -172,7 +190,7 @@ const columns = [
     title: "Size [GB]",
     dataIndex: "size_storage",
     key: "size_storage",
-    width: 100,
+    width: 150,
     // defaultSortOrder: "descend",
     sorter: (a, b) => {
       if (isNaN(a.size_storage) && isNaN(b.size_storage)) {
@@ -200,7 +218,7 @@ const columns = [
     title: "Frames",
     dataIndex: "frames",
     key: "frames",
-    width: 100,
+    width: 150,
     // defaultSortOrder: "descend",
     sorter: (a, b) => {
       if (isNaN(a.frames) && isNaN(b.frames)) {
@@ -253,7 +271,7 @@ const columns = [
     title: "Scene Length [s]",
     dataIndex: "lengthOfScenes",
     key: "lengthOfScenes",
-    width: 150,
+    width: 180,
     // defaultSortOrder: "descend",
     sorter: (a, b) => {
       if (isNaN(a.lengthOfScenes) && isNaN(b.lengthOfScenes)) {
@@ -281,7 +299,7 @@ const columns = [
     title: "Sensortypes",
     dataIndex: "sensors",
     key: "sensors",
-    width: 250,
+    width: 300,
     // scopedSlots: { customRender: "tags" },
     // defaultSortOrder: "descend",
     // sorter: (a, b) => a.sensors.localeCompare(b.sensors),
@@ -300,7 +318,7 @@ const columns = [
     dataIndex: "licensing",
     key: "licensing",
     ellipsis: true,
-    width: 200,
+    width: 'auto',
     // defaultSortOrder: "descend",
     // sorter: (a, b) => a.licensing.localeCompare(b.licensing),
     scopedSlots: {
@@ -317,6 +335,7 @@ const columns = [
     key: "relatedPaper",
     ellipsis: true,
     width: 200,
+    fixed: 'right',
     // defaultSortOrder: "descend",
     // sorter: (a, b) => a.relatedPaper.localeCompare(b.relatedPaper),
     scopedSlots: {
@@ -335,6 +354,63 @@ const columns = [
 export default {
   data() {
     return {
+      columnsSelect: [
+        {
+          index: 1,
+          key: "id",
+          name: "Name",
+        },
+        {
+          index: 2,
+          key: "citationCount",
+          name: "N° Citations",
+        },
+        {
+          index: 3,
+          key: "size_hours",
+          name: "Size [h]",
+        },
+        {
+          index: 4,
+          key: "size_storage",
+          name: "Size [GB]",
+        },
+        {
+          index: 5,
+          key: "frames",
+          name: "Frames",
+        },
+        {
+          index: 6,
+          key: "numberOfScenes",
+          name: "N° Scenes",
+        },
+        {
+          index: 7,
+          key: "lengthOfScenes",
+          name: "Scene Length [s]",
+        },
+        {
+          index: 8,
+          key: "sensors",
+          name: "Sensortypes",
+        },
+        {
+          index: 9,
+          key: "licensing",
+          name: "Licensing",
+        },
+        {
+          index: 10,
+          key: "relatedPaper",
+          name: "Related Paper",
+        },
+      ],
+      labelCol: { span: 2 },
+      wrapperCol: { span: 6 },
+      form: {
+        arr: [],
+      },
       data: [],
       dataSource: [],
       searchText: "",
@@ -380,6 +456,16 @@ export default {
     });
   },
   methods: {
+    handleChange() {
+      console.log('this.form.arr===============',this.form.arr);
+      // console.log('columns===============',columns);
+      // arr.filter(item => arrtemp.includes(item.key))
+      this.columns=columns.filter((item)=>{
+        console.log('item.key============',item.key,this.form.arr.includes(item.key) )
+        return   this.form.arr.includes(item.key)
+      })
+      console.log( "this.columns====================",this.columns)
+    },
     tagColor(tag) {
       // console.log("tag===================", tag);
       switch (tag.trim()) {
