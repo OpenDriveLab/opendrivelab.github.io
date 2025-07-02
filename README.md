@@ -1,2 +1,2 @@
 > [!IMPORTANT]
-> 🌟 Stay up to date at [opendrivelab.com](https://opendrivelab.com/#news)!
+> Stay up to date at [opendrivelab.com](https://opendrivelab.com/#news)!
