@@ -1,2 +1,2 @@
-> [!IMPORTANT]
+> [!d]
 > test
